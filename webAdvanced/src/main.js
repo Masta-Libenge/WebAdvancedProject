@@ -1,5 +1,6 @@
 import { searchMusic } from './api.js';
 import { setupFilterListener } from './ui.js';
+import { toggleFavorite, isFavorite, getFavorites } from './storage.js';
 let currentSort = '';
 
 const searchBtn = document.getElementById('searchBtn');
@@ -18,6 +19,7 @@ function renderResults(tracks) {
     tracks.forEach(track => {
         const card = document.createElement('div');
         card.className = 'card';
+        const favStatus = isFavorite(track.id) ? '❤️' : '🤍';
 
         card.innerHTML = `
       <img src="${track.album.cover_medium}" alt="Album cover" />
@@ -25,9 +27,14 @@ function renderResults(tracks) {
       <p>Artist: ${track.artist.name}</p>
       <p>Album: ${track.album.title}</p>
       <audio controls src="${track.preview}"></audio>
+      <button class="fav-btn" data-id="${track.id}">${favStatus} Favorite</button>
     `;
 
         results.appendChild(card);
+        card.querySelector('.fav-btn').addEventListener('click', () => {
+            toggleFavorite(track);
+            renderResults(tracks); // re-render to update heart icon
+        });
     });
 }
 
