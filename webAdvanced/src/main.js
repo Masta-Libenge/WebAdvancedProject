@@ -1,18 +1,42 @@
 import { searchMusic } from './api.js';
 import { setupFilterListener } from './ui.js';
 import { toggleFavorite, isFavorite, getFavorites } from './storage.js';
+
 let currentSort = '';
+let currentFilter = '';
+let allTracks = [];
+let currentQuery = '';
+let currentIndex = 0;   // track API offset index
+const PAGE_SIZE = 25;   // Deezer returns max 25 per request
 
 const searchBtn = document.getElementById('searchBtn');
 const searchInput = document.getElementById('searchInput');
 const results = document.getElementById('results');
-let allTracks = []; // store all fetched tracks here
-let currentFilter = '';
+const viewFavoritesBtn = document.getElementById('viewFavoritesBtn');
 
-function renderResults(tracks) {
-    results.innerHTML = '';
-    if (tracks.length === 0) {
+// Create Load More button
+const loadMoreBtn = document.createElement('button');
+loadMoreBtn.textContent = 'Load More';
+loadMoreBtn.style.display = 'none'; // hide initially
+loadMoreBtn.style.margin = '1rem auto';
+results.after(loadMoreBtn);
+
+// Create observer info
+const observerInfo = document.createElement('div');
+observerInfo.id = 'observerInfo';
+observerInfo.style.marginTop = '1rem';
+observerInfo.style.fontStyle = 'italic';
+loadMoreBtn.after(observerInfo);
+
+function renderResults(tracks, append = false) {
+    if (!append) {
+        results.innerHTML = '';
+    }
+
+    if (tracks.length === 0 && !append) {
         results.innerHTML = '<p>No results found.</p>';
+        loadMoreBtn.style.display = 'none';
+        observerInfo.textContent = 'Observer: 0 tracks displayed.';
         return;
     }
 
@@ -33,12 +57,17 @@ function renderResults(tracks) {
         results.appendChild(card);
         card.querySelector('.fav-btn').addEventListener('click', () => {
             toggleFavorite(track);
-            renderResults(tracks); // re-render to update heart icon
+            // re-render hearts (do not reset all results, just update icons)
+            // To optimize, update button icon only:
+            const btn = results.querySelector(`button[data-id="${track.id}"]`);
+            btn.textContent = isFavorite(track.id) ? '❤️ Favorite' : '🤍 Favorite';
         });
     });
+
+    observerInfo.textContent = `Results: ${results.children.length} tracks displayed.`;
 }
 
-function applyFilter() {
+function applyFilterAndSort() {
     let filtered = currentFilter
         ? allTracks.filter(track =>
             track.album.title.toLowerCase().includes(currentFilter)
@@ -61,29 +90,69 @@ function applyFilter() {
     renderResults(filtered);
 }
 
-
+async function fetchTracks(query, index = 0) {
+    try {
+        const tracks = await searchMusic(query, index);
+        return tracks;
+    } catch (error) {
+        results.innerHTML = `<p>Error loading data: ${error.message}</p>`;
+        loadMoreBtn.style.display = 'none';
+        observerInfo.textContent = '';
+        return [];
+    }
+}
 
 async function handleSearch() {
-    const query = searchInput.value.trim();
-    if (!query) {
+    currentQuery = searchInput.value.trim();
+    currentIndex = 0;
+    allTracks = [];
+
+    if (!currentQuery) {
         results.innerHTML = '<p>Please enter a search term.</p>';
+        loadMoreBtn.style.display = 'none';
+        observerInfo.textContent = '';
         return;
     }
 
     results.innerHTML = '<p>Loading...</p>';
+    observerInfo.textContent = '';
+    loadMoreBtn.style.display = 'none';
 
-    try {
-        const tracks = await searchMusic(query);
-        allTracks = tracks; // save original list
-        applyFilter();
-    } catch (error) {
-        results.innerHTML = `<p>Error loading data: ${error.message}</p>`;
+    const tracks = await fetchTracks(currentQuery, currentIndex);
+    allTracks = tracks;
+
+    applyFilterAndSort();
+
+    // Show Load More button only if we got exactly PAGE_SIZE tracks (may be more)
+    if (tracks.length === PAGE_SIZE) {
+        loadMoreBtn.style.display = 'block';
     }
 }
 
+async function handleLoadMore() {
+    currentIndex += PAGE_SIZE;
+    loadMoreBtn.disabled = true;
+    loadMoreBtn.textContent = 'Loading...';
+
+    const newTracks = await fetchTracks(currentQuery, currentIndex);
+
+    if (newTracks.length > 0) {
+        allTracks = allTracks.concat(newTracks);
+        applyFilterAndSort();
+    }
+
+    // Hide load more if less than PAGE_SIZE tracks returned (end of results)
+    if (newTracks.length < PAGE_SIZE) {
+        loadMoreBtn.style.display = 'none';
+    }
+
+    loadMoreBtn.disabled = false;
+    loadMoreBtn.textContent = 'Load More';
+}
+
 setupFilterListener((filterValue) => {
-    currentFilter = filterValue;
-    applyFilter();
+    currentFilter = filterValue.toLowerCase();
+    applyFilterAndSort();
 });
 
 searchBtn.addEventListener('click', handleSearch);
@@ -93,26 +162,8 @@ searchInput.addEventListener('keydown', e => {
     }
 });
 document.getElementById('sortSelect').addEventListener('change', () => {
-    const sortBy = document.getElementById('sortSelect').value;
-
-    const filtered = currentFilter
-        ? allTracks.filter(track =>
-            track.album.title.toLowerCase().includes(currentFilter)
-        )
-        : [...allTracks];
-
-    const sorted = [...filtered];
-
-    sorted.sort((a, b) => {
-        if (sortBy === "title") {
-            return a.title.localeCompare(b.title);
-        } else if (sortBy === "album") {
-            return a.album.title.localeCompare(b.album.title);
-        } else if (sortBy === "duration") {
-            return a.duration - b.duration;
-        }
-        return 0;
-    });
-
-    renderResults(sorted);
+    currentSort = document.getElementById('sortSelect').value;
+    applyFilterAndSort();
 });
+
+loadMoreBtn.addEventListener('click', handleLoadMore);
