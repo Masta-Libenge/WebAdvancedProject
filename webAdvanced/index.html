@@ -8,12 +8,18 @@
 </head>
 <body>
 <header>
-  <h1>Music Search App</h1>
+  <h1>Master Music</h1>
   <input type="text" id="searchInput" placeholder="Search for artist, song..." />
   <button id="searchBtn">Search</button>
 
   <!-- New filter input -->
   <input type="text" id="filterAlbum" placeholder="Filter by album title..." />
+  <select id="sortSelect">
+    <option value="">Sort by...</option>
+    <option value="title">Track Title (A–Z)</option>
+    <option value="album">Album Title (A–Z)</option>
+    <option value="duration">Duration (Shortest–Longest)</option>
+  </select>
 </header>
 
 <main>

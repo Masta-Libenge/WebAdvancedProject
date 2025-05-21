@@ -72,3 +72,21 @@ searchInput.addEventListener('keydown', e => {
         handleSearch();
     }
 });
+document.getElementById('sortSelect').addEventListener('change', () => {
+    const sortBy = document.getElementById('sortSelect').value;
+
+    const sorted = [...currentResults]; // copy the array
+
+    sorted.sort((a, b) => {
+        if (sortBy === "title") {
+            return a.title.localeCompare(b.title);
+        } else if (sortBy === "album") {
+            return a.album.title.localeCompare(b.album.title);
+        } else if (sortBy === "duration") {
+            return a.duration - b.duration;
+        }
+        return 0;
+    });
+
+    renderResults(sorted);
+});
