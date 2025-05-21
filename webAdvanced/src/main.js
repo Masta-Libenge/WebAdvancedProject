@@ -1,5 +1,6 @@
 import { searchMusic } from './api.js';
 import { setupFilterListener } from './ui.js';
+let currentSort = '';
 
 const searchBtn = document.getElementById('searchBtn');
 const searchInput = document.getElementById('searchInput');
@@ -31,17 +32,29 @@ function renderResults(tracks) {
 }
 
 function applyFilter() {
-    if (!currentFilter) {
-        renderResults(allTracks);
-        return;
-    }
+    let filtered = currentFilter
+        ? allTracks.filter(track =>
+            track.album.title.toLowerCase().includes(currentFilter)
+        )
+        : [...allTracks];
 
-    const filtered = allTracks.filter(track =>
-        track.album.title.toLowerCase().includes(currentFilter)
-    );
+    if (currentSort) {
+        filtered.sort((a, b) => {
+            if (currentSort === "title") {
+                return a.title.localeCompare(b.title);
+            } else if (currentSort === "album") {
+                return a.album.title.localeCompare(b.album.title);
+            } else if (currentSort === "duration") {
+                return a.duration - b.duration;
+            }
+            return 0;
+        });
+    }
 
     renderResults(filtered);
 }
+
+
 
 async function handleSearch() {
     const query = searchInput.value.trim();
@@ -75,7 +88,13 @@ searchInput.addEventListener('keydown', e => {
 document.getElementById('sortSelect').addEventListener('change', () => {
     const sortBy = document.getElementById('sortSelect').value;
 
-    const sorted = [...currentResults]; // copy the array
+    const filtered = currentFilter
+        ? allTracks.filter(track =>
+            track.album.title.toLowerCase().includes(currentFilter)
+        )
+        : [...allTracks];
+
+    const sorted = [...filtered];
 
     sorted.sort((a, b) => {
         if (sortBy === "title") {
