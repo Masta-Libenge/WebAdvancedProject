@@ -1,10 +1,25 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <title>Title</title>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Music Search App - Deezer API</title>
+    <link rel="stylesheet" href="webAdvanced/style/main.css" />
 </head>
 <body>
+<header>
+    <h1>Music Search App</h1>
+    <input type="text" id="searchInput" placeholder="Search for artist, song..." />
+    <button id="searchBtn">Search</button>
 
+    <!-- New filter input -->
+    <input type="text" id="filterAlbum" placeholder="Filter by album title..." />
+</header>
+
+<main>
+    <section id="results"></section>
+</main>
+
+<script type="module" src="webAdvanced/src/main.js"></script>
 </body>
 </html>
