@@ -1,32 +1,59 @@
 body {
     font-family: Arial, sans-serif;
-    margin: 1rem;
-    background: #fafafa;
-    color: #333;
+    margin: 0;
+    background: #000;
+    color: #fff;
 }
 
 header {
-    margin-bottom: 1rem;
+    display: flex;
+    align-items: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    padding: 1rem;
+    background-color: #111;
 }
 
-#searchInput {
+#logo {
+    height: 60px;
+    width: auto;
+}
+
+#searchInput,
+#filterAlbum,
+#sortSelect {
     padding: 0.5rem;
     width: 250px;
+    background-color: #222;
+    color: #fff;
+    border: 1px solid #444;
+    border-radius: 4px;
 }
 
 #searchBtn {
     padding: 0.5rem 1rem;
     cursor: pointer;
+    background-color: #333;
+    color: white;
+    border: 1px solid #555;
+    border-radius: 4px;
+}
+
+#searchBtn:hover {
+    background-color: #444;
 }
 
 #results {
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
     gap: 1rem;
+    padding: 1rem;
 }
 
 .card {
-    border: 1px solid #ccc;
+    background-color: #1a1a1a;
+    border: 1px solid #333;
     border-radius: 10px;
     padding: 1rem;
     margin: 1rem;
@@ -34,21 +61,14 @@ header {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 0.5rem; /* adds spacing between inner elements */
-    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
-}
-
-#results {
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: center;
-    gap: 1rem; /* spacing between cards */
+    gap: 0.5rem;
+    box-shadow: 0 2px 8px rgba(255, 255, 255, 0.05);
+    color: white;
 }
 
 audio {
     width: 100%;
 }
-
 
 .card img {
     max-width: 100%;
@@ -59,4 +79,16 @@ audio {
     margin: 0.5rem 0 0 0;
     font-size: 1rem;
     text-align: center;
+}
+
+.fav-btn {
+    background: none;
+    border: none;
+    color: #ff5555;
+    font-size: 1rem;
+    cursor: pointer;
+}
+
+.fav-btn:hover {
+    text-decoration: underline;
 }
