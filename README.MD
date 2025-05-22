@@ -62,6 +62,7 @@ git clone https://github.com/jouwgebruikersnaam/masta-music.git
 
 
 2. Installeer dependencies
+
 npm install
 
 3. Start de server
