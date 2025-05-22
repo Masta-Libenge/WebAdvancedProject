@@ -1,66 +1,87 @@
-README - Masta Music Webapplicatie
+Masta Music - Webapplicatie
 Projectbeschrijving
-Masta Music is een interactieve single-page webapplicatie waarmee gebruikers muziek kunnen zoeken, filteren en sorteren via de Deezer API. Daarnaast kunnen gebruikers favoriete nummers opslaan die bewaard blijven tussen sessies.
+Masta Music is een interactieve single-page webapplicatie waarmee gebruikers muziek kunnen zoeken, filteren, sorteren en favoriete nummers kunnen opslaan. De app maakt gebruik van de Deezer API en demonstreert moderne JavaScript-technieken zoals async/await, localStorage, observer API en meer.
+
+De applicatie is gebouwd als eindproject voor het vak Advanced Web en voldoet aan alle functionele en technische eisen.
 
 Functionaliteiten
-Zoekfunctie: Zoek op artiest, nummer of album.
+Zoekfunctie – Zoek op artiest, nummer of album.
 
-Filteren: Filter resultaten op albumtitel.
+Filteren – Filter de resultaten op albumtitel.
 
-Sorteren: Sorteer op nummer titel, album titel of duur.
+Sorteren – Sorteer op nummer titel, album titel of duur.
 
-Favorieten: Markeer nummers als favoriet, deze worden lokaal opgeslagen en blijven bewaard.
+Favorieten – Markeer nummers als favoriet. Favorieten worden opgeslagen in localStorage en blijven bewaard tussen sessies.
 
-Laad meer: Bekijk meer dan de eerste 25 resultaten via de knop “Load More”.
+Laad meer – Bekijk meer dan de eerste 25 resultaten via de knop “Load More”.
 
-Observer API: Toont realtime het aantal getoonde nummers onder de resultaten.
+Observer API – Toont realtime hoeveel nummers er zijn weergegeven.
 
-Foutafhandeling: Geeft meldingen bij lege zoekopdrachten of fouten bij het laden van data.
+Foutafhandeling – Meldingen bij lege zoekopdrachten of API-fouten.
+
+Donkere stijl – Zwarte achtergrond met visuele accenten.
+
+Logo functionaliteit – Klik op het logo om de pagina te herladen.
 
 Gebruikte API
-Deezer API (https://developers.deezer.com/api)
-De applicatie haalt via deze API trackgegevens op op basis van gebruikerszoekopdrachten.
+Deezer API: https://developers.deezer.com/api
+Om toegang te krijgen tot Deezer-data tijdens ontwikkeling is tijdelijke CORS-toegang vereist via:
+https://cors-anywhere.herokuapp.com/
+Klik op “Request temporary access to the demo server” om API-verzoeken correct te laten werken in de browser.
 
 Technische implementatie
-JavaScript concepten en waar toegepast:
-Concept	Bestandsnaam	Lijnnummer(s)	Toelichting
-DOM-manipulatie	src/app.js	10 - 90	Elementen selecteren, aanmaken en updaten
-Event listeners	src/app.js	50 - 80	Knoppen, invoervelden en dropdown events
-Const en let	src/app.js	Door heel bestand	Variabelen en constante waarden declareren
-Template literals	src/app.js	25 - 50	Dynamische HTML strings voor kaarten
-Array methods	src/app.js	65 - 85	filter(), sort(), forEach()
-Arrow functions	src/app.js	70 - 85	Kortere functie syntax voor callbacks
-Ternary operator	src/app.js	30, 55	Voor het tonen van favorieten hartjes
-Callbacks	src/ui.js	10 - 30	Filter invoer event handler
-Promises & async/await	src/app.js	90 - 110	Asynchrone API calls en foutafhandeling
-Observer API	src/app.js	120 - 140	MutationObserver voor realtime aantal resultaten
-Fetch & JSON	src/api.js	10 - 40	Ophalen en verwerken van API-data
-LocalStorage	src/storage.js	10 - 50	Opslaan en ophalen van favorieten
-Form validatie	src/app.js	80 - 90	Controleren op lege zoekterm
+Concept	Bestand	Regels	Uitleg
+DOM-manipulatie	src/app.js	10–90	Elementen selecteren, bewerken, toevoegen
+Event listeners	src/app.js	50–80	Inputvelden, knoppen, dropdowns
+Const & Let	src/app.js	Hele bestand	Declaratie van variabelen
+Template literals	src/app.js	25–50	HTML genereren in kaarten
+Array methods	src/app.js	65–85	.filter(), .sort(), .forEach()
+Arrow functions	src/app.js	70–85	Kortere functie syntax
+Ternary operator	src/app.js	30, 55	Voor UI-elementen zoals hartjes
+Callbacks	src/ui.js	10–30	Event handler voor filterinvoer
+Promises / Async & Await	src/app.js	90–110	API calls en foutafhandeling
+Observer API	src/app.js	120–140	MutationObserver voor resultaat-telling
+Fetch & JSON	src/api.js	10–40	API-data ophalen en verwerken
+LocalStorage	src/storage.js	10–50	Favorieten opslaan en ophalen
+Form validatie	src/app.js	80–90	Controleren op lege zoekopdrachten
 
 Installatie en gebruik
-Clone deze repository:
+Clone de repository
+
+bash
+Copy
+Edit
 git clone https://github.com/jouwgebruikersnaam/masta-music.git
+Installeer dependencies
 
-Installeer dependencies met Vite:
+bash
+Copy
+Edit
 npm install
+Start de ontwikkelserver
 
-Start de ontwikkelserver:
+bash
+Copy
+Edit
 npm run dev
+Open de app in je browser
+Meestal: http://localhost:5173 of http://localhost:3000
 
-Open de applicatie in je browser via de getoonde URL (meestal http://localhost:3000).
+Voor correcte werking van de API:
 
-Screenshots
+Ga naar: https://cors-anywhere.herokuapp.com/
 
-De zoekfunctie, filter, sorteer opties en resultaten in kaartvorm.
+Klik op “Request temporary access to the demo server”
 
-
-Favorieten worden bewaard en aangegeven met een rood hartje.
 
 Bronnen
 Deezer API documentatie: https://developers.deezer.com/api
 
-Vite build tool: https://vitejs.dev/
+Vite build tool: https://vitejs.dev
+
+CORS Anywhere proxy: https://cors-anywhere.herokuapp.com
 
 AI assistentie: ChatGPT (OpenAI)
 
+Over dit project
+Masta Music is gemaakt als eindproject voor het vak  Web Advanced. Het project combineert moderne frontendtechnologieën met een duidelijke focus op gebruikerservaring en functionele volledigheid.
