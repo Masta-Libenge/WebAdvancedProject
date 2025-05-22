@@ -58,7 +58,7 @@ Installatie en gebruik:
 
 (In je terminal)
 
-git clone https://github.com/jouwgebruikersnaam/masta-music.git
+git clone https://github.com/Masta-Libenge/WebAdvancedProject
 
 
 2. Installeer dependencies
