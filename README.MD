@@ -73,14 +73,18 @@ npm install
 
 npm run dev
 
-5. Open de site in je browser
-Meestal: http://localhost:5173
-
-6. Activeer CORS voor Deezer API
+5. Activeer CORS voor Deezer API
 
 Ga naar: https://cors-anywhere.herokuapp.com/
 
+6. Open de site in je browser
+Meestal: http://localhost:5173
+
+
+
 Klik op: Request temporary access to the demo server
+
+Nu werkt de website!
 
 
 ________________________________________________________________________________________________________________________________________________________________________________________________________________________________
