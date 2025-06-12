@@ -60,19 +60,23 @@ Installatie en gebruik:
 
 git clone https://github.com/Masta-Libenge/WebAdvancedProject
 
+2. Ga naar het project
 
-2. Installeer dependencies
+cd WebAdvancedProject\webAdvanced
+
+
+3. Installeer dependencies
 
 npm install
 
-3. Start de server
+4. Start de server
 
 npm run dev
 
-4. Open de site in je browser
+5. Open de site in je browser
 Meestal: http://localhost:5173
 
-5. Activeer CORS voor Deezer API
+6. Activeer CORS voor Deezer API
 
 Ga naar: https://cors-anywhere.herokuapp.com/
 
